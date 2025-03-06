@@ -1,17 +1,15 @@
-import styled from "styled-components";
+import { Canvas } from "@react-three/fiber";
 
-function App() {
-
+export default function App() {
   return (
-    <Main>
-      hi 모두들 안녕 내가 누군지 아니
-    </Main>
-  )
+    <Canvas>
+      <mesh>
+        <boxGeometry args={[2, 2, 2]} />
+        <meshPhongMaterial />
+      </mesh>
+      <ambientLight intensity={0.1} />
+      <directionalLight position={[0, 0, 5]} color="red" />
+    </Canvas>
+  );
 }
-
-export default App
-
-const Main = styled.div`
-  display: flex;
-  flex-directon: center;
-`;
+ 
