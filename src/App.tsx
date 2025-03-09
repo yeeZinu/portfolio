@@ -32,18 +32,24 @@ function Box(props: ThreeElements["mesh"]) {
 }
 
 function Strawberry() {
-  const gltf = useLoader(GLTFLoader, "models/strawberrySub.glb");
+  const gltf = useLoader(GLTFLoader, "models/test.glb");
   const { camera } = useThree();
+
+  // 불러온 모델 중 laptop만 불러오기
+  const labtop = gltf.scene.getObjectByName("labtop");
+
+  // 불러온 모델 중 cup만 불러오기
+  const cup = gltf.scene.getObjectByName("cup");
 
   // 3d 모델 크기 확인
   // const boxHelper = new THREE.BoxHelper(gltf.scene, 0x00ff00);
   // gltf.scene.add(boxHelper);
 
   // 배경 제거거
-  const background = gltf.scene.getObjectByName("평면002");
-  if (background) {
-    background.visible = false;
-  }
+  // const background = gltf.scene.getObjectByName("평면002");
+  // if (background) {
+  //   background.visible = false;
+  // }
 
   // 클릭 시 특정 위치로 이동동
   const handleClick = (event: ThreeEvent<MouseEvent>) => {
@@ -54,15 +60,31 @@ function Strawberry() {
       object.position.y + 2,
       object.position.z + 5
     );
+  };  
+  
+  // cup 클릭 시 특정 위치로 이동동
+  const handleClickCup = (event: ThreeEvent<MouseEvent>) => {
+    if (!event.object) return;
+    const object = event.object;
+    camera.position.set(
+      object.position.x + 2,
+      object.position.y + 2,
+      object.position.z + 5
+    );
   };
 
   return (
-    <primitive
-      object={gltf.scene}
-      children-0-castShadow
-      onClick={handleClick}
-      scale={0.5}
-    />
+    <group>
+      {/* <primitive
+        object={gltf.scene}
+        children-0-castShadow
+        onClick={handleClick}
+        scale={0.5}
+      /> */}
+
+      {labtop && <primitive object={labtop} onClick={handleClick} />}
+      {cup && <primitive object={cup} onClick={handleClickCup} />}
+    </group>
   );
 }
 
